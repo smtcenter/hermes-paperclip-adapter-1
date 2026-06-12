@@ -198,9 +198,25 @@ All tests pass. The adapter is **production-hardened**.
 - Model matching required for Hermes config provider usage
 - Documentation-based tests viable for tightly coupled logic
 
-### Phase 2: Core Coverage (2-3 days)
-- [ ] Timeout/grace period tests
-- [ ] Multi-tool workflow tests
+### Phase 2: Core Coverage (2-3 days) ✅ COMPLETED
+- [x] Timeout/grace period tests (32 tests in execute.timeout.test.ts)
+- [x] Multi-tool workflow tests (27 tests in execute.multitools.test.ts)
+
+**Status:** Phase 2 completed June 12, 2026  
+**Commit:** [pending] — test: add Phase 2 test coverage (timeout + multi-tool)  
+**Results:**
+- 32 new timeout/grace period tests (all passing)
+- 27 new multi-tool workflow tests (all passing)
+- Total: 161 tests passing (up from 102)
+
+**Key Learnings:**
+- Timeout configuration properly validated with boundary conditions
+- Grace period enforcement documented and tested
+- Session resumption after timeout verified
+- Multi-tool output parsing correctly preserves order and content
+- Large outputs (10MB+) and many sequential tools (100+) handled correctly
+- Token accumulation logic verified across tool chains
+
 
 ### Phase 3: Hardening (3-5 days)
 - [ ] Advanced error recovery tests
@@ -263,8 +279,10 @@ npm run typecheck
 - ✅ Timeout enforcement with grace period
 - ✅ Environment variable injection tests (Phase 1 — documented)
 - ✅ Provider detection tests (Phase 1 — 43 tests passing)
-- 🔲 Timeout/grace period edge case tests (recommended for phase 2)
-- 🔲 Multi-tool workflow tests (recommended for phase 2)
+- ✅ Timeout/grace period edge case tests (Phase 2 — 32 tests passing)
+- ✅ Multi-tool workflow tests (Phase 2 — 27 tests passing)
+- 🔲 Advanced error recovery tests (recommended for Phase 3)
+- 🔲 Fault injection framework (recommended for Phase 3)
 
 ---
 
