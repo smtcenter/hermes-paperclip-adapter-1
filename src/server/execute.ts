@@ -97,8 +97,17 @@ Title: {{taskTitle}}
 {{#commentId}}
 ## Comment on This Issue
 
-Someone commented. Read it:
-   \`curl -s -H "Authorization: Bearer $PAPERCLIP_API_KEY" "{{paperclipApiUrl}}/issues/{{taskId}}/comments/{{commentId}}" | python3 -m json.tool\`
+Someone commented:
+
+{{#latestCommentBody}}
+---
+{{latestCommentBody}}
+---
+{{/latestCommentBody}}
+{{^latestCommentBody}}
+Read it:
+   \`curl -s -H "Authorization: Bearer $PAPER...KEY" "{{paperclipApiUrl}}/issues/{{taskId}}/comments/{{commentId}}" | python3 -m json.tool\`
+{{/latestCommentBody}}
 
 Address the comment, POST a reply if needed, then continue working.
 {{/commentId}}
@@ -132,6 +141,7 @@ export function buildPrompt(
   const taskTitle = cfgString(ctx.config?.taskTitle) || "";
   const taskBody = cfgString(ctx.config?.taskBody) || "";
   const commentId = cfgString(ctx.config?.commentId) || "";
+  const latestCommentBody = cfgString(ctx.config?.latestCommentBody) || "";
   const wakeReason = cfgString(ctx.config?.wakeReason) || "";
   const agentName = ctx.agent?.name || "Hermes Agent";
   const companyName = cfgString(ctx.config?.companyName) || "";
@@ -157,6 +167,7 @@ export function buildPrompt(
     taskTitle,
     taskBody,
     commentId,
+    latestCommentBody,
     wakeReason,
     projectName,
     paperclipApiUrl,
