@@ -64,12 +64,24 @@ npm run typecheck # type checking only
 - ✅ Pushed to fork: smtcenter/hermes-paperclip-adapter-1
 
 **Status:**
-- Main branch: 9 commits ahead of upstream
+- Main branch: 10 commits ahead of upstream
 - All feature branches merged
 - Test suite: 16/16 passing
 - Build: Clean TypeScript compilation
+- Updated adapter installed to `~/.paperclip/adapter-plugins/`
+
+**GitHub Issue Updates:**
+- #145 — Commented with resolution details
+- #158 — Confirmed fixed in 57e1f41
+- #142 — Confirmed fixed in 48e0588
+- #131 — Confirmed fixed in 48e0588
+
+**Action Required:**
+- ⚠️ Paperclip server restart needed to load updated adapter
+- Current PID: 791493 (running via npm exec)
+- Restart command: `systemctl --user restart paperclipai-paperclip@default.service`
 
 **Next Priority:**
-- Track remaining open issues (#158, #157, #142, #131 — many show as resolved in commits)
-- Coordinate push to upstream NousResearch repo
+- Coordinate push to upstream NousResearch repo (10 commits)
 - Consider preparing v0.4.1 release with usage-posting fix
+- Test usage data POSTing after server restart
