@@ -180,9 +180,23 @@ All tests pass. The adapter is **production-hardened**.
 
 ## Test Implementation Roadmap
 
-### Phase 1: Quick Wins (1-2 days)
-- [ ] Environment variable injection tests
-- [ ] Provider detection/resolution tests
+### Phase 1: Quick Wins (1-2 days) ✅ COMPLETED
+- [x] Environment variable injection tests (documented in execute.env.test.ts)
+- [x] Provider detection/resolution tests (43 tests in detect-model.test.ts)
+
+**Status:** Phase 1 completed June 12, 2026  
+**Commit:** a2220cd — test: add Phase 1 test coverage (env vars + provider resolution)  
+**Results:**
+- 43 new provider resolution tests (all passing)
+- Environment variable behavior documented
+- Session ID format fixed across all tests  
+- Total: 102 tests passing
+
+**Key Learnings:**
+- Provider resolution tested against actual implementation (resolveProvider)
+- Hermes config providers trusted unconditionally (plugin support)
+- Model matching required for Hermes config provider usage
+- Documentation-based tests viable for tightly coupled logic
 
 ### Phase 2: Core Coverage (2-3 days)
 - [ ] Timeout/grace period tests
@@ -239,7 +253,7 @@ npm run typecheck
 ## Production Readiness Checklist
 
 - ✅ Unit tests: 16/16 passing
-- ✅ Stress tests: 10/10 passing
+- ✅ Stress tests: 10/10 passing  
 - ✅ Integration test: Live Paperclip validation passing
 - ✅ CI/CD: GitHub Actions workflow configured
 - ✅ Build: TypeScript → JavaScript compilation clean
@@ -247,8 +261,10 @@ npm run typecheck
 - ✅ Session persistence across heartbeats
 - ✅ Error recovery with exponential backoff
 - ✅ Timeout enforcement with grace period
-- 🔲 Environment variable injection tests (recommended for phase 1)
-- 🔲 Provider detection tests (recommended for phase 1)
+- ✅ Environment variable injection tests (Phase 1 — documented)
+- ✅ Provider detection tests (Phase 1 — 43 tests passing)
+- 🔲 Timeout/grace period edge case tests (recommended for phase 2)
+- 🔲 Multi-tool workflow tests (recommended for phase 2)
 
 ---
 
