@@ -149,12 +149,12 @@ describe("Hermes Paperclip Adapter — execute.ts", () => {
     test("should extract session ID from quiet-mode output", () => {
       const stdout = `The task is complete.
 
-session_id: ses_abc123def456`;
+session_id: 20260612_143022_a3b8f4c`;
       const stderr = "";
 
       const result = parseHermesOutput(stdout, stderr);
 
-      assert.equal(result.sessionId, "ses_abc123def456", "Should extract session ID");
+      assert.equal(result.sessionId, "20260612_143022_a3b8f4c", "Should extract session ID");
       assert.equal(result.response, "The task is complete.", "Should extract response");
     });
 
@@ -164,12 +164,12 @@ session_id: ses_abc123def456`;
 2. Unused import  
 3. Race condition
 
-session_id: ses_xyz789`;
+session_id: 20260612_150130_7e9a2f1`;
       const stderr = "";
 
       const result = parseHermesOutput(stdout, stderr);
 
-      assert.equal(result.sessionId, "ses_xyz789", "Should extract session ID");
+      assert.equal(result.sessionId, "20260612_150130_7e9a2f1", "Should extract session ID");
       assert(
         result.response?.includes("Found 3 issues"),
         "Should include start of response",
@@ -182,7 +182,7 @@ session_id: ses_xyz789`;
 
     test("should extract token usage from output", () => {
       const stdout = `Response here.
-session_id: ses_123`;
+session_id: 20260612_151010_b4c6d2e`;
       const stderr = `tokens: 1500 input, 450 output`;
 
       const result = parseHermesOutput(stdout, stderr);
@@ -196,7 +196,7 @@ session_id: ses_123`;
 
     test("should extract cost from output", () => {
       const stdout = `Work done.
-session_id: ses_456`;
+session_id: 20260612_152020_f8a3b5d`;
       const stderr = `cost: $0.025`;
 
       const result = parseHermesOutput(stdout, stderr);
@@ -211,7 +211,7 @@ Result:
   file2.txt
 
 [hermes] Tool completed
-session_id: ses_789`;
+session_id: 20260612_153030_c9e4f7a`;
       const stderr = "";
 
       const result = parseHermesOutput(stdout, stderr);
@@ -229,7 +229,7 @@ session_id: ses_789`;
 
     test("should extract error messages from stderr", () => {
       const stdout = `Process failed.
-session_id: ses_error`;
+session_id: 20260612_154040_d2f5a8b`;
       const stderr = `ERROR: Connection timeout\nWARNING: Retrying...`;
 
       const result = parseHermesOutput(stdout, stderr);
@@ -240,7 +240,7 @@ session_id: ses_error`;
 
     test("should NOT treat INFO/DEBUG logs as errors", () => {
       const stdout = `Task complete.
-session_id: ses_ok`;
+session_id: 20260612_155050_e3b6c9d`;
       const stderr = `[2026-06-11T10:30:00Z] INFO: Initialized\n[2026-06-11T10:30:01Z] DEBUG: Tool registered`;
 
       const result = parseHermesOutput(stdout, stderr);
@@ -249,12 +249,12 @@ session_id: ses_ok`;
     });
 
     test("should return empty response if only session_id was in stdout", () => {
-      const stdout = `session_id: ses_minimal`;
+      const stdout = `session_id: 20260612_160000_f4d7e2a`;
       const stderr = "";
 
       const result = parseHermesOutput(stdout, stderr);
 
-      assert.equal(result.sessionId, "ses_minimal", "Should extract session ID");
+      assert.equal(result.sessionId, "20260612_160000_f4d7e2a", "Should extract session ID");
       assert(!result.response || result.response === "", "Should have empty/no response");
     });
   });
@@ -286,12 +286,12 @@ session_id: ses_ok`;
 
     test("should handle very large responses", () => {
       const largeResponse = "Line of output\n".repeat(10000);
-      const stdout = `${largeResponse}session_id: ses_large`;
+      const stdout = `${largeResponse}session_id: 20260612_161010_a5e8f3b`;
       const stderr = "";
 
       const result = parseHermesOutput(stdout, stderr);
 
-      assert.equal(result.sessionId, "ses_large", "Should extract session ID");
+      assert.equal(result.sessionId, "20260612_161010_a5e8f3b", "Should extract session ID");
       assert(result.response, "Should have response");
       assert.equal(typeof result.response, "string", "Response should be a string");
     });
