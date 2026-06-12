@@ -82,6 +82,34 @@ npm run typecheck # type checking only
 - Restart command: `systemctl --user restart paperclipai-paperclip@default.service`
 
 **Next Priority:**
-- Coordinate push to upstream NousResearch repo (10 commits)
-- Consider preparing v0.4.1 release with usage-posting fix
-- Test usage data POSTing after server restart
+- Monitor upstream PRs (#163-#166) awaiting NousResearch review
+- Consider v0.4.1 release after upstream merges
+- Track usage data cost reporting in production
+
+---
+
+### 2026-06-12 — Infrastructure Lead Heartbeat (09:37 UTC+3)
+
+**Status Check Completed:**
+- ✅ Paperclip server restart confirmed (PID 2074715, started 09:34 UTC+3)
+- ✅ Usage data posting verified working (usage_json populated in heartbeat_runs)
+- ✅ Updated adapter active in ~/.paperclip/adapter-plugins/
+- ✅ Test suite: 16/16 passing
+
+**Upstream PR Status:**
+- **PR #163** — fix: resolve custom/plugin providers (MERGEABLE, awaiting review)
+- **PR #164** — fix: POST usage data to API (#145) (MERGEABLE, awaiting review)
+- **PR #165** — fix: tighten SESSION_ID_REGEX (#75, #142, #131) (MERGEABLE, awaiting review)
+- **PR #166** — feat: inject latestCommentBody (#130) (MERGEABLE, awaiting review)
+
+All PRs submitted June 12 early morning. No conflicts. No review activity yet.
+
+**Fork Status:**
+- smtcenter/hermes-paperclip-adapter-1: 12 commits ahead of upstream
+- All commits pushed to fork
+- Ready for upstream merge when maintainers review
+
+**Production Impact:**
+- Usage tracking now functional across 246 agents fleet
+- Cost attribution working for token auditing
+- No blockers on adapter side

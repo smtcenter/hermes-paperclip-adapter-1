@@ -137,12 +137,35 @@ export function buildPrompt(
 ): string {
   const template = cfgString(config.promptTemplate) || DEFAULT_PROMPT_TEMPLATE;
 
-  const taskId = cfgString(ctx.config?.taskId);
-  const taskTitle = cfgString(ctx.config?.taskTitle) || "";
-  const taskBody = cfgString(ctx.config?.taskBody) || "";
-  const commentId = cfgString(ctx.config?.commentId) || "";
-  const latestCommentBody = cfgString(ctx.config?.latestCommentBody) || "";
-  const wakeReason = cfgString(ctx.config?.wakeReason) || "";
+  // Read task context from ctx.context (per-wake, dynamic) with fallbacks to
+  // ctx.config (per-agent, static) for compatibility with older Paperclip versions.
+  // Current Paperclip writes task data at ctx.context.paperclipIssue.* and ctx.context.taskId.
+  const taskId =
+    cfgString((ctx.context as any)?.taskId) ||
+    cfgString((ctx.context as any)?.paperclipIssue?.id) ||
+    cfgString((ctx.runtime as any)?.taskKey) ||
+    cfgString(ctx.config?.taskId);
+  const taskTitle =
+    cfgString((ctx.context as any)?.paperclipIssue?.title) ||
+    cfgString(ctx.config?.taskTitle) ||
+    "";
+  const taskBody =
+    cfgString((ctx.context as any)?.paperclipIssue?.description) ||
+    cfgString((ctx.context as any)?.paperclipTaskMarkdown) ||
+    cfgString(ctx.config?.taskBody) ||
+    "";
+  const commentId =
+    cfgString((ctx.context as any)?.latestCommentId) ||
+    cfgString(ctx.config?.commentId) ||
+    "";
+  const latestCommentBody =
+    cfgString((ctx.context as any)?.latestCommentBody) ||
+    cfgString(ctx.config?.latestCommentBody) ||
+    "";
+  const wakeReason =
+    cfgString((ctx.context as any)?.wakeReason) ||
+    cfgString(ctx.config?.wakeReason) ||
+    "";
   const agentName = ctx.agent?.name || "Hermes Agent";
   const companyName = cfgString(ctx.config?.companyName) || "";
   const projectName = cfgString(ctx.config?.projectName) || "";

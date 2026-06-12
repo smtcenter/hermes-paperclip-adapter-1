@@ -97,6 +97,125 @@ describe("Hermes Paperclip Adapter — execute.ts", () => {
       assert(prompt.includes("No task"), "Should include noTask");
     });
 
+    test("should read task data from ctx.context (current Paperclip schema)", () => {
+      const ctx: Partial<AdapterExecutionContext> = {
+        agent: {
+          id: "agent-123",
+          name: "Test Agent",
+          companyId: "company-456",
+        } as any,
+        context: {
+          taskId: "49936113-4e6f-4dc3-9d36-dc9eb405befd",
+          paperclipIssue: {
+            id: "49936113-4e6f-4dc3-9d36-dc9eb405befd",
+            title: "Deploy feature X",
+            description: "Deploy the new feature to production.",
+          },
+          wakeReason: "assignment",
+          latestCommentId: "comment-789",
+          latestCommentBody: "This is urgent!",
+        },
+        config: {},
+      };
+
+      const config = {
+        promptTemplate: `Task: {{taskId}}
+Title: {{taskTitle}}
+Body: {{taskBody}}
+Comment: {{commentId}} — {{latestCommentBody}}
+Wake: {{wakeReason}}`,
+      };
+
+      const prompt = buildPrompt(ctx as AdapterExecutionContext, config);
+
+      assert(
+        prompt.includes("Task: 49936113-4e6f-4dc3-9d36-dc9eb405befd"),
+        "Should read taskId from ctx.context",
+      );
+      assert(
+        prompt.includes("Title: Deploy feature X"),
+        "Should read title from ctx.context.paperclipIssue",
+      );
+      assert(
+        prompt.includes("Body: Deploy the new feature to production."),
+        "Should read description from ctx.context.paperclipIssue",
+      );
+      assert(
+        prompt.includes("Comment: comment-789"),
+        "Should read commentId from ctx.context.latestCommentId",
+      );
+      assert(
+        prompt.includes("This is urgent!"),
+        "Should read latestCommentBody from ctx.context",
+      );
+      assert(
+        prompt.includes("Wake: assignment"),
+        "Should read wakeReason from ctx.context",
+      );
+    });
+
+    test("should fall back to ctx.config when ctx.context is empty (legacy compatibility)", () => {
+      const ctx: Partial<AdapterExecutionContext> = {
+        agent: {
+          id: "agent-123",
+          name: "Test Agent",
+          companyId: "company-456",
+        } as any,
+        context: {},
+        config: {
+          taskId: "TRA-99",
+          taskTitle: "Legacy task",
+          taskBody: "Old-style task data",
+        },
+      };
+
+      const config = {
+        promptTemplate: `Task: {{taskId}} — {{taskTitle}}`,
+      };
+
+      const prompt = buildPrompt(ctx as AdapterExecutionContext, config);
+
+      assert(
+        prompt.includes("Task: TRA-99 — Legacy task"),
+        "Should fall back to ctx.config when ctx.context is empty",
+      );
+    });
+
+    test("should prefer ctx.context over ctx.config when both exist", () => {
+      const ctx: Partial<AdapterExecutionContext> = {
+        agent: {
+          id: "agent-123",
+          name: "Test Agent",
+          companyId: "company-456",
+        } as any,
+        context: {
+          taskId: "new-id",
+          paperclipIssue: {
+            title: "New title",
+          },
+        },
+        config: {
+          taskId: "old-id",
+          taskTitle: "Old title",
+        },
+      };
+
+      const config = {
+        promptTemplate: `Task: {{taskId}} — {{taskTitle}}`,
+      };
+
+      const prompt = buildPrompt(ctx as AdapterExecutionContext, config);
+
+      assert(
+        prompt.includes("Task: new-id — New title"),
+        "Should prefer ctx.context over ctx.config",
+      );
+      assert(
+        !prompt.includes("old-id"),
+        "Should not use old ctx.config when ctx.context exists",
+      );
+    });
+
     test("should sanitize the API URL to ensure /api suffix", () => {
       const ctx: Partial<AdapterExecutionContext> = {
         agent: {
