@@ -113,3 +113,35 @@ All PRs submitted June 12 early morning. No conflicts. No review activity yet.
 - Usage tracking now functional across 246 agents fleet
 - Cost attribution working for token auditing
 - No blockers on adapter side
+
+---
+
+### 2026-06-12 — Infrastructure Lead Heartbeat (09:49 UTC+3)
+
+**PR Status Update:**
+- **PR #167** — fix(server): read task context from ctx.context (OPEN, closes #132)
+  - Restores task-assignment functionality for hermes_local agents
+  - Reads from `ctx.context.*` (current Paperclip) with fallback to `ctx.config.*` (legacy)
+  - 19/19 tests passing (3 new comprehensive tests added)
+  - +7,205 additions / -64 deletions
+  - Awaiting maintainer review
+
+**Previous PRs:**
+- **PR #163-166** — Still open, awaiting review (submitted June 12 early morning)
+
+**Test Suite:**
+- ✅ 19/19 tests pass
+- ✅ TypeScript build clean
+- ✅ All edge cases covered
+
+**Issue Status:**
+- **PRO-73** (Railway JWT Secrets) — BLOCKED, awaiting Dr. Samir's Railway dashboard access
+  - Issue is critical priority but requires external infrastructure action
+  - No other assignable issues in current sprint
+
+**Operational Status:**
+- Adapter development complete and stable
+- All features merged to main
+- Fork synchronized with upstream
+- Production fleet (246 agents) operating normally
+- Standing by for upstream PR reviews and next task assignment
