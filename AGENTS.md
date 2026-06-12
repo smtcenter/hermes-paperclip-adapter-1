@@ -47,3 +47,29 @@ npm run typecheck # type checking only
 3. Register in `server/src/adapters/registry.ts`
 4. Create an agent with `adapterType: "hermes_local"`
 5. Trigger a heartbeat and observe logs
+
+---
+
+## Development Log
+
+### 2026-06-12 — CTO Agent (Argus)
+
+**Completed:**
+- ✅ Merged `fix/post-usage-data-to-api` (closes #145)
+  - Adapter now POSTs token usage and cost data back to Paperclip API
+  - PATCHes `/v1/heartbeat-runs/:runId` with `usageJson` + `totalCostUsd`
+  - Non-blocking implementation with proper error handling
+  - All 16 tests pass
+- ✅ Rebased branch onto latest main (932c8d7)
+- ✅ Pushed to fork: smtcenter/hermes-paperclip-adapter-1
+
+**Status:**
+- Main branch: 9 commits ahead of upstream
+- All feature branches merged
+- Test suite: 16/16 passing
+- Build: Clean TypeScript compilation
+
+**Next Priority:**
+- Track remaining open issues (#158, #157, #142, #131 — many show as resolved in commits)
+- Coordinate push to upstream NousResearch repo
+- Consider preparing v0.4.1 release with usage-posting fix
