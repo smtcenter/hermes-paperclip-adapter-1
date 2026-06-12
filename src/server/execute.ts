@@ -191,8 +191,18 @@ export function buildPrompt(
 // Output parsing
 // ---------------------------------------------------------------------------
 
-/** Regex to extract session ID from Hermes quiet-mode output: "session_id: <id>" at the END of the output */
-const SESSION_ID_REGEX = /^session_id:\s*(\S+)\s*$/m;
+/**
+ * Regex to extract session ID from Hermes quiet-mode output: "session_id: <id>"
+ *
+ * Hermes session IDs follow the format: YYYYMMDD_HHMMSS_<hex>
+ * Example: 20260612_143022_a3b8f4c
+ *
+ * This strict format prevents accidentally parsing error messages like
+ * "Use a session ID from a previous run" → capturing "from" as the session ID.
+ *
+ * Fixes #75, #142, #131
+ */
+const SESSION_ID_REGEX = /^session_id:\s*(\d{8}_\d{6}_[a-f0-9]+)\s*$/m;
 
 /** Regex to extract token usage from Hermes output. */
 const TOKEN_USAGE_REGEX =
@@ -263,11 +273,9 @@ export function parseHermesOutput(stdout: string, stderr: string): ParsedOutput 
   } else {
     // Legacy format (non-quiet mode) — only look for structured patterns
     // that are clearly intentional session IDs, not just any mention of "session_id"
-    // Look for patterns like:
-    //   session_id: abc123
-    //   session saved: abc123
-    //   session[_]id[:\s]+ but NOT "session ID format" or other prose
-    const legacyMatch = combined.match(/\n(?:session[_](?:id|saved)|Session[_]ID)[:\s]+([a-zA-Z0-9_-]{6,})/i);
+    // Match Hermes session ID format: YYYYMMDD_HHMMSS_<hex>
+    // This prevents capturing prose like "session ID from a previous run"
+    const legacyMatch = combined.match(/\n(?:session[_](?:id|saved)|Session[_]ID)[:\s]+(\d{8}_\d{6}_[a-f0-9]+)/i);
     if (legacyMatch?.[1]) {
       result.sessionId = legacyMatch?.[1] ?? null;
     }
