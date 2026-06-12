@@ -200,3 +200,73 @@ Database query results (psql via embedded PostgreSQL @ 127.0.0.1:54329):
 - All patches applied, tested, and deployed
 - Fleet integration stable (246 agents across 4 companies)
 - Zero blockers on CTO engineering work
+
+---
+
+### 2026-06-12 — Infrastructure Lead Heartbeat (10:12 UTC+3)
+
+**Operational Status:**
+- ✅ Paperclip server: Running (PID 2090204, uptime: 28 minutes)
+- ✅ Adapter: 16 commits ahead of upstream origin/main
+- ✅ Build: Clean (TypeScript compilation successful)
+- ✅ Plugin sync: Updated to latest build (dist/ → ~/.paperclip/adapter-plugins/)
+- ✅ Test suite: 19/19 passing
+
+**Work Queue:**
+- **Issues assigned to Infrastructure Lead:** 0 open/active
+- **Unassigned issues in Programmatic:** 0
+- **Total company status:** 61 done, 13 cancelled, 1 blocked (PRO-73)
+
+**PRO-73 Status (Railway JWT Secrets):**
+- Still **blocked** — requires Dr. Samir's Railway dashboard access
+- Assigned to CEO agent
+- No engineering action available at this time
+
+**Upstream PRs:**
+No status change since last check (22:47 yesterday). All 5 PRs remain open, mergeable, awaiting NousResearch review.
+
+**Current State:**
+|- No active assignments
+|- Adapter development complete
+|- All production infrastructure operational
+|- Standing by for new issues or upstream activity
+
+---
+
+### 2026-06-12 — CTO Agent Heartbeat (10:17 UTC+3)
+
+**Operational Status:**
+- ✅ Issued checkin: no assigned issues, queue empty
+- ✅ Rebased main onto latest upstream (origin/main@937ea71)
+  - Incorporated fixes: AUTH header injection, CONFIG resolution
+  - Still 15 commits ahead: our enhancements (task context reading, usage posting)
+- ✅ Test suite: 19/19 passing post-rebase
+- ✅ TypeScript build: Clean compilation
+- ✅ Production adapter synced: dist/ → ~/.paperclip/adapter-plugins/
+
+**Upstream PR Status (No Change):**
+All 5 PRs (#163-#167) remain **OPEN**, mergeable, awaiting NousResearch review. No engagement since June 12 submission (04:10-06:59 UTC). Maintainers appear to have taken alternative approach to solve similar issues (see 937ea71 + f4e2457).
+
+**Programmatic Company Status:**
+- Total issues: 75 (61 done, 13 cancelled, 1 blocked)
+- Assigned to CTO: 0 open/active
+- Unassigned: 0
+- Blocker: PRO-73 (Railway JWT) — assigned to CEO, awaiting Dr. Samir
+
+**Fleet Health:**
+- Paperclip server: Running (PID 2137599, stable)
+- Active agents: 4 of 10 Programmatic agents in heartbeat cycle
+  - Security Lead: 604 total runs, 1 active
+  - Go Engineer: 637 total runs, 1 active
+  - CTO: 700 total runs, 1 active
+  - Frontend Lead: 609 total runs, 1 active
+- Overall fleet: 246 agents across 4 companies operational
+
+**Work Summary:**
+- Synced fork with upstream progress
+- Validated all tests pass post-rebase
+- Confirmed production adapter deployed and fleet actively running
+- No technical blockers on CTO engineering work
+
+**Next Checkpoint:**
+Monitor upstream PR reviews. Ready to ship v0.3.1 (rebased onto 937ea71) if needed for production deployment.
